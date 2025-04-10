@@ -1,9 +1,9 @@
 package org.example.model;
 
 public enum PaymentMethod {
-    CARD,
+    CASH,
     CREDIT_CARD,
     DEBIT_CARD,
-    BANK_TRANSFER,
+    BILLET,
     PIX
 }
