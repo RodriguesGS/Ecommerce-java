@@ -46,6 +46,6 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return super.toString();
+        return String.format("Usuário: %s - Email: %s", this.name, this.email);
     }
 }

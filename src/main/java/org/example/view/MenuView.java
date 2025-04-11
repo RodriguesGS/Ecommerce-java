@@ -1,6 +1,7 @@
 package org.example.view;
 
 import org.example.model.Product;
+import org.example.model.User;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,9 +12,9 @@ public class MenuView {
     public int showMainMenu() {
         System.out.println("=========== Menu do Mercado ===========");
         System.out.println("1 - Cadastrar Produto");
-        System.out.println("2 - Lista dos Produtos");
+        System.out.println("2 - Listar Produtos");
         System.out.println("3 - Cadastrar Usuário");
-        System.out.println("4 - Lista dos Usuários");
+        System.out.println("4 - Listar Usuários");
         System.out.println("5 - Realizar venda");
         System.out.println("6 - Sair");
         System.out.println("=======================================");
@@ -31,9 +32,27 @@ public class MenuView {
         return new Product(name, price);
     }
 
-    public void showProducts(List<Product> products) {
-        System.out.println("\n====== Lista de Produtos ======");
+    public User getUserData() {
+        scanner.nextLine();
+        System.out.print("Digite o nome do usuário: ");
+        String name = scanner.nextLine();
+        System.out.print("Digite o email do usuário: ");
+        String email = scanner.nextLine();
+        System.out.print("Digite a senha do usuário: ");
+        String password = scanner.nextLine();
+
+        return new User(name, email, password);
+    }
+
+    public void showAllProducts(List<Product> products) {
+        System.out.println("\n=========== Lista de Produtos ===========");
         products.forEach(System.out::println);
-        System.out.println("==============================\n");
+        System.out.println("=========================================\n");
+    }
+
+    public void showAllUsers(List<User> users) {
+        System.out.println("\n=========== Lista de Usuários ===========");
+        users.forEach(System.out::println);
+        System.out.println("========================================\n");
     }
 }

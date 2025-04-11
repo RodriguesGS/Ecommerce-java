@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.repository.ProductRepository;
+import org.example.repository.UserRepository;
 import org.example.view.MenuView;
 
 import java.sql.Connection;
@@ -12,6 +13,7 @@ public class Main {
         MenuView view = new MenuView();
         Connection conn = null;
         ProductRepository listOfProducts = new ProductRepository(conn);
+        UserRepository listOfUsers = new UserRepository(conn);
 
         String url = "jdbc:sqlite:database.sqlite";
 
@@ -20,6 +22,7 @@ public class Main {
 
             if (conn != null) {
                 listOfProducts = new ProductRepository(conn);
+                listOfUsers = new UserRepository(conn);
             } else {
                 System.out.println("Falha de conexão");
                 System.exit(1);
@@ -39,7 +42,13 @@ public class Main {
                     listOfProducts.save(view.getProductData());
                     break;
                 case 2:
-                    view.showProducts(listOfProducts.findAll());
+                    view.showAllProducts(listOfProducts.findAll());
+                    break;
+                case 3:
+                    listOfUsers.save(view.getUserData());
+                    break;
+                case 4:
+                    view.showAllUsers(listOfUsers.findAll());
                     break;
                 case 6:
                     System.out.println("Saindo...");
