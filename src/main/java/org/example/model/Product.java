@@ -27,6 +27,6 @@ public class Product extends Entity {
 
     @Override
     public String toString() {
-        return String.format("%s - %s", this.name, this.price);
+        return String.format("Produto: %s Valor: R$%.2f", this.name, this.price);
     }
 }
