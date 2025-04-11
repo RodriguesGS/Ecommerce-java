@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class MenuView {
     private final Scanner scanner = new Scanner(System.in);
 
-    public int showMainMenu(int option) {
+    public int showMainMenu() {
         System.out.println("=========== Menu do Mercado ===========");
         System.out.println("1 - Cadastrar Produto");
         System.out.println("2 - Lista dos Produtos");
@@ -18,8 +18,7 @@ public class MenuView {
         System.out.println("6 - Sair");
         System.out.println("=======================================");
         System.out.print("Escolha uma opção: ");
-        option = scanner.nextInt();
-        return option;
+        return scanner.nextInt();
     }
 
     public Product getProductData() {

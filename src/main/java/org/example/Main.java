@@ -29,10 +29,10 @@ public class Main {
             System.exit(1);
         }
 
-        int option = 0;
+        int option;
 
         do {
-            option = view.showMainMenu(option);
+            option = view.showMainMenu();
 
             switch (option) {
                 case 1:
