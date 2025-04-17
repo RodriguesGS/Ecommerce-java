@@ -26,29 +26,51 @@ public class MenuView {
     }
 
     public void showSale(Sales sales) {
-        System.out.println("\nResumo de venda:");
+        System.out.println("\n=========== Resumo da Nota ===========");
         System.out.println("Cliente: " + sales.getUser().getName());
         System.out.println("Produtos: ");
+
+        double total = 0;
+
         for (Product product : sales.getProducts()) {
             System.out.print("- " + product.getName() + "\n");
+            total += product.getPrice();
         }
+
+        System.out.printf("Valor total: R$ %.2f%n", total);
         System.out.println("Pagamento: " + sales.getPaymentMethod());
         System.out.println("\nVenda registrada com sucesso!!");
+        System.out.println("======================================\n");
     }
 
     public String getEmailSales() {
         scanner.nextLine();
         System.out.print("\nDigite o email do usuário: ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
-    public List<UUID> getProductIdForSale() {
+    public List<UUID> getProductIdForSale(List<Product> allProducts) {
         System.out.print("\n\nDigite os IDs dos produtos (separados por vírgula): ");
-        String[] id = scanner.nextLine().split(",");
+        String[] idStr = scanner.nextLine().split(",");
         List<UUID> productId = new ArrayList<>();
 
-        for (String ids : id) {
-            productId.add(UUID.fromString(ids));
+        System.out.println("Produtos Encontrados:");
+
+        for (String idsStr : idStr) {
+            try {
+                UUID id = UUID.fromString(idsStr);
+                productId.add(id);
+
+                allProducts.stream()
+                        .filter(p -> p.getId().equals(id))
+                        .findFirst()
+                        .ifPresentOrElse(
+                                p -> System.out.printf("- %s (R$ %.2f)%n", p.getName(), p.getPrice()),
+                                () -> System.out.println("- Produto não encontrado.")
+                        );
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return productId;
@@ -61,21 +83,21 @@ public class MenuView {
         System.out.println("3 - Cartão de Débito");
         System.out.println("4 - Boleto");
         System.out.println("5 - Pix");
-        System.out.print("Escolha a opção: ");
+        System.out.print("Opção: ");
         int option = scanner.nextInt();
 
-        switch (option) {
-            case 1: return "CASH";
-            case 2: return "CREDIT_CARD";
-            case 3: return "DEBIT_CARD";
-            case 4: return "BILLET";
-            case 5: return "PIX";
-            default:
-                System.out.println("Opção inválida. Usando Dinheiro como padrão.");
-                return "CASH";
-        }
+        return switch (option) {
+            case 1 -> "CASH";
+            case 2 -> "CREDIT_CARD";
+            case 3 -> "DEBIT_CARD";
+            case 4 -> "BILLET";
+            case 5 -> "PIX";
+            default -> {
+                System.out.println("Opção inválida. Usaremos Dinheiro como padrão.");
+                yield "CASH";
+            }
+        };
     }
-
 
     public Product getProductData() {
         scanner.nextLine();

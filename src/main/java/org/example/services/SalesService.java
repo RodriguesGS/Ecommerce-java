@@ -49,7 +49,10 @@ public class SalesService {
 
         PaymentMethod paymentMethods = PaymentMethod.valueOf(paymentMethod);
 
-        return new Sales(UUID.randomUUID(), user, products, total, paymentMethods);
+        Sales sales = new Sales(UUID.randomUUID(), user, products, total, paymentMethods);
+        salesRepository.save(sales);
+
+        return sales;
     }
 
     public Optional<User> findByEmail(String email) {

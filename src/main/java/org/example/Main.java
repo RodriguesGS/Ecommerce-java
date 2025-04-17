@@ -2,11 +2,13 @@ package org.example;
 
 import org.example.factory.PaymentFactory;
 import org.example.model.PaymentMethod;
+import org.example.model.Product;
 import org.example.model.Sales;
 import org.example.model.User;
 import org.example.repository.ProductRepository;
 import org.example.repository.SalesRepository;
 import org.example.repository.UserRepository;
+import org.example.services.PaymentProcessor;
 import org.example.services.SalesService;
 import org.example.strategy.PaymentStrategy;
 import org.example.view.MenuView;
@@ -21,11 +23,11 @@ import java.util.UUID;
 public class Main {
     public static void main(String[] args) {
         MenuView view = new MenuView();
-        Connection conn = null;
-        ProductRepository listOfProducts = new ProductRepository(conn);
-        UserRepository listOfUsers = new UserRepository(conn);
+        Connection conn;
+        ProductRepository listOfProducts = new ProductRepository(null);
+        UserRepository listOfUsers = new UserRepository(null);
+        SalesRepository salesRepository = new SalesRepository(null);
         SalesService salesService = null;
-        SalesRepository salesRepository = null;
 
         String url = "jdbc:sqlite:database.sqlite";
 
@@ -35,7 +37,6 @@ public class Main {
             if (conn != null) {
                 listOfProducts = new ProductRepository(conn);
                 listOfUsers = new UserRepository(conn);
-                salesRepository = new SalesRepository(conn);
                 salesService = new SalesService(listOfUsers, listOfProducts, salesRepository);
 
             } else {
@@ -77,19 +78,21 @@ public class Main {
                         System.out.println("Usuário para esse email não encontrado");
                     }
 
-                    List<UUID> product = view.getProductIdForSale();
+                    List<Product> allProducts = listOfProducts.findAll();
+                    List<UUID> product = view.getProductIdForSale(allProducts);
 
                     String payment = view.getPaymentMethod();
                     PaymentMethod paymentMethod = PaymentMethod.valueOf(payment);
                     PaymentStrategy strategy = PaymentFactory.newStrategy(paymentMethod);
+                    PaymentProcessor processor = new PaymentProcessor(strategy);
+
                     double total = product.stream()
                             .map(listOfProducts::findById)
                             .filter(Optional::isPresent)
                             .mapToDouble(p -> p.get().getPrice())
                             .sum();
 
-                    strategy.processPayment(total);
-
+                    processor.process(total);
 
                     Sales sales = salesService.createSale(email, product, payment);
                     view.showSale(sales);

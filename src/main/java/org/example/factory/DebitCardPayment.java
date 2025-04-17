@@ -5,7 +5,7 @@ import org.example.strategy.PaymentStrategy;
 public class DebitCardPayment implements PaymentStrategy {
     @Override
     public void processPayment(double amount) {
-        System.out.println("O pagamento de R$" + amount + " foi processado utilizando Cartão de Débito");
-        System.out.println("Transação aprovada!!");
+        System.out.println("\nAguarde, efetuando pagamento...");
+        System.out.println("Pagamento confirmado com sucesso via Cartão de Débito. Transação aprovada!!");
     }
 }
