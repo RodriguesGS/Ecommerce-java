@@ -27,10 +27,10 @@ public class MenuView {
 
     public void showSale(Sales sales) {
         System.out.println("\nResumo de venda:");
-        System.out.println("Usuário encontrado: " + sales.getUser().getName());
+        System.out.println("Cliente: " + sales.getUser().getName());
         System.out.println("Produtos: ");
         for (Product product : sales.getProducts()) {
-            System.out.printf("- %s (R$ %.2f)\n", product.getName(), product.getPrice());
+            System.out.print("- " + product.getName() + "\n");
         }
         System.out.println("Pagamento: " + sales.getPaymentMethod());
         System.out.println("\nVenda registrada com sucesso!!");
@@ -38,12 +38,12 @@ public class MenuView {
 
     public String getEmailSales() {
         scanner.nextLine();
-        System.out.print("Digite o email do usuário: ");
+        System.out.print("\nDigite o email do usuário: ");
         return scanner.nextLine();
     }
 
     public List<UUID> getProductIdForSale() {
-        System.out.print("Digite os IDs dos produtos (separados por vírgula): ");
+        System.out.print("\n\nDigite os IDs dos produtos (separados por vírgula): ");
         String[] id = scanner.nextLine().split(",");
         List<UUID> productId = new ArrayList<>();
 
@@ -55,7 +55,7 @@ public class MenuView {
     }
 
     public String getPaymentMethod() {
-        System.out.println("Escolha a forma de pagamento");
+        System.out.println("\nEscolha a forma de pagamento");
         System.out.println("1 - Dinheiro");
         System.out.println("2 - Cartão de Crédito");
         System.out.println("3 - Cartão de Débito");

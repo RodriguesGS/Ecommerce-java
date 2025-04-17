@@ -48,8 +48,11 @@ public class SalesService {
         double total = products.stream().mapToDouble(Product::getPrice).sum();
 
         PaymentMethod paymentMethods = PaymentMethod.valueOf(paymentMethod);
-        Sales sale = new Sales(UUID.randomUUID(), user, products, total, paymentMethods);
 
-        return sale;
+        return new Sales(UUID.randomUUID(), user, products, total, paymentMethods);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

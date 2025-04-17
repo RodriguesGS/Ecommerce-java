@@ -61,7 +61,7 @@ public class UserRepository implements EntityRepository<User> {
     }
 
     public Optional<User> findByEmail(String email) {
-        String query = "SELECT * FROM users WHERE email = '?'";
+        String query = "SELECT * FROM users WHERE email = ?";
 
         try {
             PreparedStatement stmt = this.connection.prepareStatement(query);

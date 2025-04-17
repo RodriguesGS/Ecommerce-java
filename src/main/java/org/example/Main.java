@@ -1,16 +1,21 @@
 package org.example;
 
+import org.example.factory.PaymentFactory;
+import org.example.model.PaymentMethod;
 import org.example.model.Sales;
+import org.example.model.User;
 import org.example.repository.ProductRepository;
 import org.example.repository.SalesRepository;
 import org.example.repository.UserRepository;
 import org.example.services.SalesService;
+import org.example.strategy.PaymentStrategy;
 import org.example.view.MenuView;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Main {
@@ -62,8 +67,29 @@ public class Main {
                     break;
                 case 5:
                     String email = view.getEmailSales();
+                    Optional<User> optionalUser = salesService.findByEmail(email);
+
+                    if (optionalUser.isPresent()) {
+                        User user = optionalUser.get();
+
+                        System.out.print("Usuário encontrado: " + user.getName());
+                    } else {
+                        System.out.println("Usuário para esse email não encontrado");
+                    }
+
                     List<UUID> product = view.getProductIdForSale();
+
                     String payment = view.getPaymentMethod();
+                    PaymentMethod paymentMethod = PaymentMethod.valueOf(payment);
+                    PaymentStrategy strategy = PaymentFactory.newStrategy(paymentMethod);
+                    double total = product.stream()
+                            .map(listOfProducts::findById)
+                            .filter(Optional::isPresent)
+                            .mapToDouble(p -> p.get().getPrice())
+                            .sum();
+
+                    strategy.processPayment(total);
+
 
                     Sales sales = salesService.createSale(email, product, payment);
                     view.showSale(sales);
