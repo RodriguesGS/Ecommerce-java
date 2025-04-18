@@ -101,7 +101,7 @@ public class MenuView {
 
     public Product getProductData() {
         scanner.nextLine();
-        System.out.print("Digite o nome do produto: ");
+        System.out.print("\nDigite o nome do produto: ");
         String name = scanner.nextLine();
         System.out.print("Digite o preço do produto: ");
         double price = scanner.nextDouble();
@@ -111,7 +111,7 @@ public class MenuView {
 
     public User getUserData() {
         scanner.nextLine();
-        System.out.print("Digite o nome do usuário: ");
+        System.out.print("\nDigite o nome do usuário: ");
         String name = scanner.nextLine();
         System.out.print("Digite o email do usuário: ");
         String email = scanner.nextLine();

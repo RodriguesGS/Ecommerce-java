@@ -26,7 +26,7 @@ public class Main {
         Connection conn;
         ProductRepository listOfProducts = new ProductRepository(null);
         UserRepository listOfUsers = new UserRepository(null);
-        SalesRepository salesRepository = new SalesRepository(null);
+        SalesRepository salesRepository;
         SalesService salesService = null;
 
         String url = "jdbc:sqlite:database.sqlite";
@@ -37,6 +37,7 @@ public class Main {
             if (conn != null) {
                 listOfProducts = new ProductRepository(conn);
                 listOfUsers = new UserRepository(conn);
+                salesRepository = new SalesRepository(conn);
                 salesService = new SalesService(listOfUsers, listOfProducts, salesRepository);
 
             } else {
