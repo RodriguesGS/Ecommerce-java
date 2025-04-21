@@ -11,7 +11,6 @@ public class PaymentFactory {
             case DEBIT_CARD -> new DebitCardPayment();
             case BILLET -> new BilletPayment();
             case PIX -> new PixPayment();
-            default -> throw new IllegalArgumentException("Tipo de pagamento inválido: " + method);
         };
     }
 }

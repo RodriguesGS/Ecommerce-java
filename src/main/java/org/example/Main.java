@@ -76,7 +76,8 @@ public class Main {
 
                         System.out.print("Usuário encontrado: " + user.getName());
                     } else {
-                        System.out.println("Usuário para esse email não encontrado");
+                        System.out.println("Usuário para esse email não encontrado\n");
+                        continue;
                     }
 
                     List<Product> allProducts = listOfProducts.findAll();
